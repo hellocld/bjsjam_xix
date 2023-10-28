@@ -18,10 +18,6 @@ var _obstacle_pool_index:int = 0:
 var _held_obstacle: Obstacle = null
 
 
-func _ready() -> void:
-	EventBus.room_ready.connect(instance_held_obstacle.bind(obstacles[_obstacle_pool_index]))
-
-
 func _physics_process(delta):
 	var movement = Vector3.ZERO
 	var rot_x = Input.get_axis("obstacleplacer_rot_x_pos", "obstacleplacer_rot_x_neg")
@@ -56,3 +52,12 @@ func instance_held_obstacle(obstacleScene: PackedScene) -> void:
 	remote_trans.remote_path = _held_obstacle.get_path()
 
 
+func disable() -> void:
+	if _held_obstacle != null:
+		_held_obstacle.queue_free()
+	visible = false
+
+
+func enable() -> void:
+	instance_held_obstacle(obstacles[_obstacle_pool_index])
+	visible = true

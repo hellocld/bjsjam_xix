@@ -5,9 +5,23 @@ extends Node3D
 @onready var navigator:Navigator = $Navigator
 @onready var nav_start:Node3D = $NavigatorStart
 @onready var nav_goal:Node3D = $NavigatorGoal
+@onready var obstacle_placer:ObstaclePlacer = $ObstaclePlacer
 
 func _ready() -> void:
+	EventBus.ready_for_obstacle_placement.connect(enable_obstacle_placer)
+	EventBus.obstacle_placement_timeout.connect(disable_obstacle_placer)
+	
 	navigator.configure(nav_start, nav_goal)
+	disable_obstacle_placer()
+	EventBus.room_ready.emit()
+
+
+func enable_obstacle_placer() -> void:
+	obstacle_placer.enable()
+
+
+func disable_obstacle_placer() -> void:
+	obstacle_placer.disable()
 
 
 func rebake_room_navigation() -> void:

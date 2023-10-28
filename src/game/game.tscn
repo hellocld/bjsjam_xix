@@ -1,9 +1,61 @@
-[gd_scene load_steps=17 format=3 uid="uid://4ntbqy6rk18f"]
+[gd_scene load_steps=20 format=3 uid="uid://4ntbqy6rk18f"]
 
 [ext_resource type="Script" path="res://src/game/game.gd" id="1_0xk1w"]
 [ext_resource type="PackedScene" uid="uid://cx5k4egalt1he" path="res://src/rooms/custom/room_corner2corner.tscn" id="2_5u6ya"]
 [ext_resource type="Script" path="res://src/ui/MaskAnimationPlayer.gd" id="3_a7piw"]
 [ext_resource type="Script" path="res://src/ui/ui.gd" id="3_cflfw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6iq0u"]
+font_size = 128
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_hhqrx"]
+resource_name = "Countdown_Obstacles"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.7, 1.5, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": ["3", "3", "2", "1", "Get Placing!"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6, 0.7, 1, 1.4, 1.5, 1.8, 2.2, 2.3, 2.6, 3, 3.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1), Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1), Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1), Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1), Vector2(1, 1), Vector2(0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"obst_countdown_complete"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ytlui"]
+_data = {
+"Countdown_Obstacles": SubResource("Animation_hhqrx")
+}
 
 [sub_resource type="Animation" id="Animation_7ne66"]
 resource_name = "MaskHide"
@@ -146,6 +198,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Countdown" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -89.0
+offset_right = 36.5
+offset_bottom = 89.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(36, 89)
+text = "3"
+label_settings = SubResource("LabelSettings_6iq0u")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Countdown"]
+libraries = {
+"": SubResource("AnimationLibrary_ytlui")
+}
 
 [node name="MaskAnimationPlayer" type="AnimationPlayer" parent="UI"]
 root_node = NodePath("../..")

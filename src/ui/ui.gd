@@ -14,3 +14,11 @@ func mask_hide() -> void:
 
 func mask_show() -> void:
 	_state_machine.travel("MaskShow")
+
+
+func start_obst_countdown() -> void:
+	$Countdown/AnimationPlayer.play("Countdown_Obstacles")
+
+
+func obst_countdown_complete() -> void:
+	EventBus.ready_for_obstacle_placement.emit()

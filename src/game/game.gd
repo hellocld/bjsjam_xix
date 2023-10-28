@@ -13,8 +13,12 @@ var _room: RoomBase
 
 func _ready() -> void:
 	_instance_random_room()
-	EventBus.room_ready.emit()
 	_ui.mask_hide()
+	EventBus.ui_mask_hidden.connect(on_room_ready)
+
+
+func on_room_ready() -> void:
+	_ui.start_obst_countdown()
 
 
 func _instance_random_room() -> void:
