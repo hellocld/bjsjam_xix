@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://65jp2ieib57s"]
+
+[ext_resource type="Script" path="res://src/rooms/room_base.gd" id="1_2bofa"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_8xbcm"]
+agent_height = 2.0
+agent_radius = 1.0
+
+[node name="RoomBase" type="Node3D"]
+script = ExtResource("1_2bofa")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_8xbcm")
+
+[node name="RoomBase" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="ObstacleRoot" type="Node3D" parent="NavigationRegion3D"]

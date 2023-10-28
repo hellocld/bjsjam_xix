@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://e72aajjqr18r"]
+
+[node name="ObstaclePlacer" type="Node3D"]
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]

@@ -10,7 +10,10 @@
 		{
 			"uuid": "d714100a-c440-442b-880e-c912bc93696a",
 			"title": "Todo",
-			"tasks": []
+			"tasks": [
+				"fffa5ade-54c5-40b2-b126-26a382a0ae0b",
+				"8ae680cf-47eb-47ec-a108-1eb8e2fb3015"
+			]
 		},
 		{
 			"uuid": "353b1f1f-75c2-4420-a9bb-d3d104a8ed95",
@@ -23,7 +26,29 @@
 			"tasks": []
 		}
 	],
-	"tasks": [],
+	"tasks": [
+		{
+			"uuid": "fffa5ade-54c5-40b2-b126-26a382a0ae0b",
+			"title": "Base Room Scene",
+			"description": "",
+			"category": "9670d7ae-814c-4ef4-9144-fb27842e714c",
+			"steps": []
+		},
+		{
+			"uuid": "8ae680cf-47eb-47ec-a108-1eb8e2fb3015",
+			"title": "Obstacle placement system",
+			"description": "",
+			"category": "9670d7ae-814c-4ef4-9144-fb27842e714c",
+			"steps": []
+		},
+		{
+			"uuid": "b6044e4b-067d-4c70-a8fd-ae356fcff9da",
+			"title": "New task",
+			"description": "",
+			"category": "9670d7ae-814c-4ef4-9144-fb27842e714c",
+			"steps": []
+		}
+	],
 	"layout": {
 		"columns": [
 			[

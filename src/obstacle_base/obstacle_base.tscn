@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://tyubbe1f1nr1"]
+
+[ext_resource type="Script" path="res://src/obstacle_base/obstacle_base.gd" id="1_7ekbf"]
+
+[node name="ObstacleBase" type="RigidBody3D"]
+freeze = true
+script = ExtResource("1_7ekbf")
