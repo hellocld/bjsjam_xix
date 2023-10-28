@@ -6,6 +6,7 @@ var _state_machine: AnimationNodeStateMachinePlayback
 
 func _ready() -> void:
 	_state_machine = $MaskAnimationTree["parameters/playback"]
+	EventBus.obstacle_placement_timeout.connect(_on_obst_placement_timeout)
 
 
 func mask_hide() -> void:
@@ -21,4 +22,10 @@ func start_obst_countdown() -> void:
 
 
 func obst_countdown_complete() -> void:
-	EventBus.ready_for_obstacle_placement.emit()
+	EventBus.obstacle_placement_started.emit()
+
+
+func _on_obst_placement_timeout() -> void:
+	$ObstTimesUp.visible = true
+	var timer = get_tree().create_timer(3)
+	timer.timeout.connect(mask_show)

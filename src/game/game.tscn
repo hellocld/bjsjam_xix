@@ -1,9 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://4ntbqy6rk18f"]
+[gd_scene load_steps=24 format=3 uid="uid://4ntbqy6rk18f"]
 
 [ext_resource type="Script" path="res://src/game/game.gd" id="1_0xk1w"]
 [ext_resource type="PackedScene" uid="uid://cx5k4egalt1he" path="res://src/rooms/custom/room_corner2corner.tscn" id="2_5u6ya"]
 [ext_resource type="Script" path="res://src/ui/MaskAnimationPlayer.gd" id="3_a7piw"]
 [ext_resource type="Script" path="res://src/ui/ui.gd" id="3_cflfw"]
+[ext_resource type="Script" path="res://src/game/ObstaclePlacementTimer.gd" id="5_ekg4u"]
+[ext_resource type="Script" path="res://src/game/ObstaclePlacementTimerLabel.gd" id="5_oguwo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6iq0u"]
 font_size = 128
@@ -165,6 +167,16 @@ states/MaskShowImmediate/position = Vector2(240, 42)
 states/Start/position = Vector2(92, 125)
 transitions = ["MaskShow", "MaskHide", SubResource("AnimationNodeStateMachineTransition_scasa"), "MaskHide", "MaskShow", SubResource("AnimationNodeStateMachineTransition_bryyi"), "Start", "MaskShowImmediate", SubResource("AnimationNodeStateMachineTransition_8lnfv"), "MaskShowImmediate", "MaskHide", SubResource("AnimationNodeStateMachineTransition_ipote")]
 
+[sub_resource type="LabelSettings" id="LabelSettings_6jcyx"]
+font_size = 64
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tj1t8"]
+font_size = 128
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Game" type="Node3D"]
 script = ExtResource("1_0xk1w")
 room_pool = Array[PackedScene]([ExtResource("2_5u6ya")])
@@ -236,6 +248,50 @@ tree_root = SubResource("AnimationNodeStateMachine_rlgtl")
 anim_player = NodePath("../MaskAnimationPlayer")
 active = true
 
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ObstaclePlacementTimerLabel" type="Label" parent="UI/MarginContainer/CenterContainer" node_paths=PackedStringArray("timer")]
+visible = false
+layout_mode = 2
+text = "00:00"
+label_settings = SubResource("LabelSettings_6jcyx")
+script = ExtResource("5_oguwo")
+timer = NodePath("../../../../ObstaclePlacementTimer")
+
+[node name="ObstTimesUp" type="Label" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Time's Up!"
+label_settings = SubResource("LabelSettings_tj1t8")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.938391, 0.25139, -0.237121, 0, 0.686161, 0.72745, 0.345577, -0.682632, 0.643887, 0, 0, 0)
 light_energy = 0.5
+
+[node name="ObstaclePlacementTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+script = ExtResource("5_ekg4u")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

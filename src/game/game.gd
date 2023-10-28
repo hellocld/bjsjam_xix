@@ -14,7 +14,8 @@ var _room: RoomBase
 func _ready() -> void:
 	_instance_random_room()
 	_ui.mask_hide()
-	EventBus.ui_mask_hidden.connect(on_room_ready)
+	EventBus.ui_mask_hidden.connect(on_room_ready, CONNECT_ONE_SHOT)
+	EventBus.map_baked.connect(_on_map_baked)
 
 
 func on_room_ready() -> void:
@@ -28,4 +29,7 @@ func _instance_random_room() -> void:
 	_room_root.add_child(_room)
 
 
-
+func _on_map_baked() -> void:
+	_ui.mask_hide()
+	_room.navigator.ready_up()
+	_room.navigator.start_nav()

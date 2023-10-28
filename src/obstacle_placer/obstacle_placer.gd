@@ -19,6 +19,8 @@ var _held_obstacle: Obstacle = null
 
 
 func _physics_process(delta):
+	if !visible:
+		return
 	var movement = Vector3.ZERO
 	var rot_x = Input.get_axis("obstacleplacer_rot_x_pos", "obstacleplacer_rot_x_neg")
 	var rot_z = Input.get_axis("obstacleplacer_rot_z_pos", "obstacleplacer_rot_z_neg")
@@ -34,9 +36,10 @@ func _physics_process(delta):
 		_obstacle_pool_index = wrapi(_obstacle_pool_index - 1, 0, obstacles.size())
 	
 	if Input.is_action_just_pressed("obstacleplacer_place"):
-		_held_obstacle.place()
-		_held_obstacle = null
-		instance_held_obstacle(obstacles[_obstacle_pool_index])
+		if _held_obstacle != null:
+			_held_obstacle.place()
+			_held_obstacle = null
+			instance_held_obstacle(obstacles[_obstacle_pool_index])
 
 
 func instance_held_obstacle(obstacleScene: PackedScene) -> void:

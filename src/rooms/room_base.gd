@@ -8,8 +8,8 @@ extends Node3D
 @onready var obstacle_placer:ObstaclePlacer = $ObstaclePlacer
 
 func _ready() -> void:
-	EventBus.ready_for_obstacle_placement.connect(enable_obstacle_placer)
-	EventBus.obstacle_placement_timeout.connect(disable_obstacle_placer)
+	EventBus.obstacle_placement_started.connect(enable_obstacle_placer)
+	EventBus.obstacle_placement_timeout.connect(_on_obstacle_placement_timeout)
 	
 	navigator.configure(nav_start, nav_goal)
 	disable_obstacle_placer()
@@ -22,6 +22,11 @@ func enable_obstacle_placer() -> void:
 
 func disable_obstacle_placer() -> void:
 	obstacle_placer.disable()
+
+
+func _on_obstacle_placement_timeout() -> void:
+	obstacle_placer.disable()
+	EventBus.ui_mask_shown.connect(rebake_room_navigation, CONNECT_ONE_SHOT)
 
 
 func rebake_room_navigation() -> void:
