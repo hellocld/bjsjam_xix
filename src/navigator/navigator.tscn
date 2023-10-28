@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://xw5yidmbqryn"]
+
+[ext_resource type="Script" path="res://src/navigator/navigator.gd" id="1_kco07"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6wrkq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xj3mt"]
+
+[node name="Navigator" type="CharacterBody3D"]
+axis_lock_angular_y = true
+script = ExtResource("1_kco07")
+move_speed = 1.0
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 1.0
+use_3d_avoidance = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_6wrkq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_xj3mt")
+
+[connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]

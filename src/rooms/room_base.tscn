@@ -1,10 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://65jp2ieib57s"]
+[gd_scene load_steps=8 format=3 uid="uid://65jp2ieib57s"]
 
 [ext_resource type="Script" path="res://src/rooms/room_base.gd" id="1_2bofa"]
+[ext_resource type="PackedScene" uid="uid://xw5yidmbqryn" path="res://src/navigator/navigator.tscn" id="2_51lxs"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_8xbcm"]
 agent_height = 2.0
 agent_radius = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6sdki"]
+albedo_color = Color(0, 0.580392, 0.945098, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_v23b6"]
+material = SubResource("StandardMaterial3D_6sdki")
+inner_radius = 0.6
+outer_radius = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x5man"]
+albedo_color = Color(0, 0.760784, 0.254902, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_1v5iw"]
+material = SubResource("StandardMaterial3D_x5man")
+inner_radius = 0.8
 
 [node name="RoomBase" type="Node3D"]
 script = ExtResource("1_2bofa")
@@ -15,3 +31,15 @@ navigation_mesh = SubResource("NavigationMesh_8xbcm")
 [node name="RoomBase" type="Node3D" parent="NavigationRegion3D"]
 
 [node name="ObstacleRoot" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="NavigatorStart" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigatorStart"]
+mesh = SubResource("TorusMesh_v23b6")
+
+[node name="NavigatorGoal" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigatorGoal"]
+mesh = SubResource("TorusMesh_1v5iw")
+
+[node name="Navigator" parent="." instance=ExtResource("2_51lxs")]

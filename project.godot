@@ -14,6 +14,10 @@ config/name="BGSjam XIX"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+EventBus="*res://src/autoloads/event_bus.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg")

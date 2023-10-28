@@ -1,11 +1,160 @@
-[gd_scene load_steps=2 format=3 uid="uid://4ntbqy6rk18f"]
+[gd_scene load_steps=17 format=3 uid="uid://4ntbqy6rk18f"]
 
+[ext_resource type="Script" path="res://src/game/game.gd" id="1_0xk1w"]
 [ext_resource type="PackedScene" uid="uid://e72aajjqr18r" path="res://src/obstacle_placer/obstacle_placer.tscn" id="1_b06ym"]
+[ext_resource type="Script" path="res://src/ui/MaskAnimationPlayer.gd" id="3_a7piw"]
+[ext_resource type="Script" path="res://src/ui/ui.gd" id="3_cflfw"]
+
+[sub_resource type="Animation" id="Animation_rx6dg"]
+resource_name = "MaskShow"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/ScreenMask:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/MaskAnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"mask_shown"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_7ne66"]
+resource_name = "MaskHide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/ScreenMask:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/MaskAnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"mask_hidden"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_lmyib"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/ScreenMask:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iefw8"]
+_data = {
+"MaskHide": SubResource("Animation_7ne66"),
+"MaskShow": SubResource("Animation_rx6dg"),
+"MaskShowImmediate": SubResource("Animation_lmyib")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7hw0j"]
+animation = &"MaskHide"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_04whk"]
+animation = &"MaskShow"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4ptcy"]
+animation = &"MaskShowImmediate"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_scasa"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bryyi"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8lnfv"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ipote"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_rlgtl"]
+states/MaskHide/node = SubResource("AnimationNodeAnimation_7hw0j")
+states/MaskHide/position = Vector2(625, 53)
+states/MaskShow/node = SubResource("AnimationNodeAnimation_04whk")
+states/MaskShow/position = Vector2(430, 203)
+states/MaskShowImmediate/node = SubResource("AnimationNodeAnimation_4ptcy")
+states/MaskShowImmediate/position = Vector2(240, 42)
+states/Start/position = Vector2(92, 125)
+transitions = ["MaskShow", "MaskHide", SubResource("AnimationNodeStateMachineTransition_scasa"), "MaskHide", "MaskShow", SubResource("AnimationNodeStateMachineTransition_bryyi"), "Start", "MaskShowImmediate", SubResource("AnimationNodeStateMachineTransition_8lnfv"), "MaskShowImmediate", "MaskHide", SubResource("AnimationNodeStateMachineTransition_ipote")]
 
 [node name="Game" type="Node3D"]
+script = ExtResource("1_0xk1w")
 
 [node name="ObstaclePlacer" parent="." instance=ExtResource("1_b06ym")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 6.47703, 5.82632)
+
+[node name="ShadowLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+shadow_enabled = true
+sky_mode = 1
+
+[node name="RoomRoot" type="Node3D" parent="."]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_cflfw")
+
+[node name="ScreenMask" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="MaskAnimationPlayer" type="AnimationPlayer" parent="UI"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_iefw8")
+}
+script = ExtResource("3_a7piw")
+
+[node name="MaskAnimationTree" type="AnimationTree" parent="UI"]
+tree_root = SubResource("AnimationNodeStateMachine_rlgtl")
+anim_player = NodePath("../MaskAnimationPlayer")
+active = true

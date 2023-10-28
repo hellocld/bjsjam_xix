@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://b3tp8hy047mdp"]
+[gd_scene load_steps=8 format=3 uid="uid://b3tp8hy047mdp"]
 
 [ext_resource type="Script" path="res://scratch/test_room/RoomNavRegion3D.gd" id="1_kbsgj"]
 [ext_resource type="Material" uid="uid://q0fa6ar67wl2" path="res://assets/materials/icon_triplanar.tres" id="1_ofhbd"]
-[ext_resource type="Script" path="res://scratch/test_room/navigator.gd" id="2_yib1s"]
+[ext_resource type="PackedScene" uid="uid://xw5yidmbqryn" path="res://src/navigator/navigator.tscn" id="3_rgruq"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_twd17"]
 vertices = PackedVector3Array(-8.25, 0.625, 0, -3, 0.625, 0, -3, 0.625, -0.75, -8.25, 0.625, 0, -3, 0.625, -0.75, -2.25, 0.625, -1.5, -0.250001, 0.625, -8.5, -8.25, 0.625, -8.5, -2.25, 0.625, -1.5, -0.250001, 0.625, -1.5, -0.250001, 0.625, -8.5, 8.5, 0.625, -1.75, 8.5, 0.625, -8.5, -0.250001, 0.625, -8.5, -0.250001, 0.625, -1.5, -3, 0.625, 1, -3, 0.625, 0, -8.25, 0.625, 0, -2.25, 0.625, 1.75, -3, 0.625, 1, -8.25, 0.625, 0, -8.25, 0.625, 8.5, -1, 0.625, 8.5, -1, 0.625, 8.5, -0.750001, 0.625, 1.75, -2.25, 0.625, 1.75, 8.5, 0.625, 8.5, 8.5, 0.625, 1.75, -0.750001, 0.625, 1.75, -1, 0.625, 8.5)
@@ -16,10 +16,6 @@ height = 4.0
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_meeqr"]
 radius = 1.0
 height = 4.0
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6wrkq"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_xj3mt"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_5n5uv"]
 
@@ -66,24 +62,7 @@ mesh = SubResource("CapsuleMesh_h3gq2")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RoomNavRegion3D/UnbakedObstacle/RigidBody3D"]
 shape = SubResource("CapsuleShape3D_meeqr")
 
-[node name="Navigator" type="CharacterBody3D" parent="." node_paths=PackedStringArray("nav_agent", "target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 5)
-axis_lock_angular_y = true
-script = ExtResource("2_yib1s")
-move_speed = 1.0
-nav_agent = NodePath("NavigationAgent3D")
-target = NodePath("../TestTarget")
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Navigator"]
-avoidance_enabled = true
-radius = 1.0
-use_3d_avoidance = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Navigator"]
-shape = SubResource("CapsuleShape3D_6wrkq")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Navigator"]
-mesh = SubResource("CapsuleMesh_xj3mt")
+[node name="Navigator" parent="." instance=ExtResource("3_rgruq")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.924752, -0.301931, -0.231671, 0, -0.608748, 0.793364, -0.38057, -0.733665, -0.562941, 0, 0, 0)
@@ -97,6 +76,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.0263, 0, -5.02192)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="TestTarget"]
 mesh = SubResource("SphereMesh_5n5uv")
-
-[connection signal="target_reached" from="Navigator/NavigationAgent3D" to="Navigator" method="_on_navigation_agent_3d_target_reached"]
-[connection signal="velocity_computed" from="Navigator/NavigationAgent3D" to="Navigator" method="_on_navigation_agent_3d_velocity_computed"]

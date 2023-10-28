@@ -1,3 +1,4 @@
+class_name Navigator
 extends CharacterBody3D
 
 @export var move_speed: float = 3.0
@@ -5,10 +6,21 @@ extends CharacterBody3D
 @export var target: Node3D
 
 var _calc_velocity: Vector3
+var _is_navigating:bool = false
 
-func _ready() -> void:
-	nav_agent.target_position = target.global_position
-	_calc_time_to_target.call_deferred()
+
+func configure(start:Node3D, goal:Node3D) -> void:
+	global_transform = start.global_transform
+	nav_agent.target_position = goal.global_position
+	visible = false
+
+
+func ready_up() -> void:
+	visible = true
+
+
+func start_nav() -> void:
+	_is_navigating = true
 
 
 func _calc_time_to_target() -> void:
@@ -21,6 +33,8 @@ func _calc_time_to_target() -> void:
 
 
 func _physics_process(delta):
+	if !_is_navigating:
+		return
 	var next_path_position = nav_agent.get_next_path_position()
 	_calc_velocity = (next_path_position - global_position).normalized() * move_speed
 	if nav_agent.avoidance_enabled:
