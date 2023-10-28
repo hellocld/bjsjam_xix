@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://4ntbqy6rk18f"]
+
+[ext_resource type="PackedScene" uid="uid://e72aajjqr18r" path="res://src/obstacle_placer/obstacle_placer.tscn" id="1_b06ym"]
+
+[node name="Game" type="Node3D"]
+
+[node name="ObstaclePlacer" parent="." instance=ExtResource("1_b06ym")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 6.47703, 5.82632)

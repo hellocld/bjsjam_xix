@@ -1,5 +1,14 @@
-[gd_scene format=3 uid="uid://e72aajjqr18r"]
+[gd_scene load_steps=3 format=3 uid="uid://e72aajjqr18r"]
+
+[ext_resource type="Script" path="res://src/obstacle_placer/obstacle_placer.gd" id="1_snr5p"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yy50l"]
+size = Vector3(0.2, 0.2, 0.2)
 
 [node name="ObstaclePlacer" type="Node3D"]
+script = ExtResource("1_snr5p")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RemoteTransform3D"]
+mesh = SubResource("BoxMesh_yy50l")
