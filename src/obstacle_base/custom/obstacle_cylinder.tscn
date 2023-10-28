@@ -3,8 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://tyubbe1f1nr1" path="res://src/obstacle_base/obstacle_base.tscn" id="1_cy41r"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_8r81x"]
+height = 4.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ph2bu"]
+height = 4.0
 
 [node name="ObstacleBase" instance=ExtResource("1_cy41r")]
 

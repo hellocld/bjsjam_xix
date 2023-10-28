@@ -287,6 +287,7 @@ label_settings = SubResource("LabelSettings_tj1t8")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.938391, 0.25139, -0.237121, 0, 0.686161, 0.72745, 0.345577, -0.682632, 0.643887, 0, 0, 0)
+visible = false
 light_energy = 0.5
 
 [node name="ObstaclePlacementTimer" type="Timer" parent="."]

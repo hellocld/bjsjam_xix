@@ -29,3 +29,7 @@ func _on_obst_placement_timeout() -> void:
 	$ObstTimesUp.visible = true
 	var timer = get_tree().create_timer(3)
 	timer.timeout.connect(mask_show)
+	EventBus.ui_mask_shown.connect(_on_timesup_mask_shown, CONNECT_ONE_SHOT)
+
+func _on_timesup_mask_shown() -> void:
+	$ObstTimesUp.visible = false
