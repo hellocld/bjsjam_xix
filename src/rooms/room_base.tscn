@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://65jp2ieib57s"]
+[gd_scene load_steps=11 format=3 uid="uid://65jp2ieib57s"]
 
 [ext_resource type="Script" path="res://src/rooms/room_base.gd" id="1_2bofa"]
 [ext_resource type="PackedScene" uid="uid://xw5yidmbqryn" path="res://src/navigator/navigator.tscn" id="2_51lxs"]
+[ext_resource type="PackedScene" uid="uid://e72aajjqr18r" path="res://src/obstacle_placer/obstacle_placer.tscn" id="3_3kaje"]
+[ext_resource type="PackedScene" uid="uid://cjxcpahqwqsq" path="res://src/obstacle_base/custom/obstacle_box.tscn" id="4_bf08a"]
+[ext_resource type="PackedScene" uid="uid://bxqdpbg7wys03" path="res://src/obstacle_base/custom/obstacle_cylinder.tscn" id="5_n3uxy"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_8xbcm"]
 agent_height = 2.0
@@ -43,3 +46,7 @@ mesh = SubResource("TorusMesh_v23b6")
 mesh = SubResource("TorusMesh_1v5iw")
 
 [node name="Navigator" parent="." instance=ExtResource("2_51lxs")]
+
+[node name="ObstaclePlacer" parent="." node_paths=PackedStringArray("obstacle_root") instance=ExtResource("3_3kaje")]
+obstacle_root = NodePath("../NavigationRegion3D/ObstacleRoot")
+obstacles = Array[PackedScene]([ExtResource("4_bf08a"), ExtResource("5_n3uxy")])

@@ -1,7 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://4ntbqy6rk18f"]
+[gd_scene load_steps=17 format=3 uid="uid://4ntbqy6rk18f"]
 
 [ext_resource type="Script" path="res://src/game/game.gd" id="1_0xk1w"]
-[ext_resource type="PackedScene" uid="uid://e72aajjqr18r" path="res://src/obstacle_placer/obstacle_placer.tscn" id="1_b06ym"]
 [ext_resource type="PackedScene" uid="uid://cx5k4egalt1he" path="res://src/rooms/custom/room_corner2corner.tscn" id="2_5u6ya"]
 [ext_resource type="Script" path="res://src/ui/MaskAnimationPlayer.gd" id="3_a7piw"]
 [ext_resource type="Script" path="res://src/ui/ui.gd" id="3_cflfw"]
@@ -117,9 +116,6 @@ transitions = ["MaskShow", "MaskHide", SubResource("AnimationNodeStateMachineTra
 [node name="Game" type="Node3D"]
 script = ExtResource("1_0xk1w")
 room_pool = Array[PackedScene]([ExtResource("2_5u6ya")])
-
-[node name="ObstaclePlacer" parent="." instance=ExtResource("1_b06ym")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 42, 24.5)

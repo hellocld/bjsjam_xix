@@ -5,6 +5,7 @@ extends Node3D
 
 @export var move_speed: float = 3.0
 @export var rot_speed: float = 5.0
+@export var obstacle_root:Node3D
 @export var obstacles: Array[PackedScene]
 
 var _obstacle_pool_index:int = 0:
@@ -15,15 +16,10 @@ var _obstacle_pool_index:int = 0:
 		instance_held_obstacle(obstacles[_obstacle_pool_index])
 
 var _held_obstacle: Obstacle = null
-var _obstacle_root: Node3D:
-	get:
-		if _obstacle_root == null:
-			_obstacle_root = get_tree().get_nodes_in_group("ObstacleRoot")[0]
-		return _obstacle_root
 
 
 func _ready() -> void:
-	instance_held_obstacle.call_deferred(obstacles[_obstacle_pool_index])
+	EventBus.room_ready.connect(instance_held_obstacle.bind(obstacles[_obstacle_pool_index]))
 
 
 func _physics_process(delta):
@@ -56,8 +52,7 @@ func instance_held_obstacle(obstacleScene: PackedScene) -> void:
 	if _held_obstacle != null:
 		_held_obstacle.queue_free()
 	_held_obstacle = temp
-	_obstacle_root.add_child(_held_obstacle)
+	obstacle_root.add_child(_held_obstacle)
 	remote_trans.remote_path = _held_obstacle.get_path()
-	remote_trans.rotation = Vector3.ZERO
 
 
