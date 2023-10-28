@@ -1,38 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://4ntbqy6rk18f"]
+[gd_scene load_steps=18 format=3 uid="uid://4ntbqy6rk18f"]
 
 [ext_resource type="Script" path="res://src/game/game.gd" id="1_0xk1w"]
 [ext_resource type="PackedScene" uid="uid://e72aajjqr18r" path="res://src/obstacle_placer/obstacle_placer.tscn" id="1_b06ym"]
+[ext_resource type="PackedScene" uid="uid://cx5k4egalt1he" path="res://src/rooms/custom/room_corner2corner.tscn" id="2_5u6ya"]
 [ext_resource type="Script" path="res://src/ui/MaskAnimationPlayer.gd" id="3_a7piw"]
 [ext_resource type="Script" path="res://src/ui/ui.gd" id="3_cflfw"]
-
-[sub_resource type="Animation" id="Animation_rx6dg"]
-resource_name = "MaskShow"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("UI/ScreenMask:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("UI/MaskAnimationPlayer")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"mask_shown"
-}]
-}
 
 [sub_resource type="Animation" id="Animation_7ne66"]
 resource_name = "MaskHide"
@@ -60,6 +32,35 @@ tracks/1/keys = {
 "values": [{
 "args": [],
 "method": &"mask_hidden"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_rx6dg"]
+resource_name = "MaskShow"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/ScreenMask:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/MaskAnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"mask_shown"
 }]
 }
 
@@ -115,15 +116,18 @@ transitions = ["MaskShow", "MaskHide", SubResource("AnimationNodeStateMachineTra
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_0xk1w")
+room_pool = Array[PackedScene]([ExtResource("2_5u6ya")])
 
 [node name="ObstaclePlacer" parent="." instance=ExtResource("1_b06ym")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 6.47703, 5.82632)
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 42, 24.5)
+fov = 22.0
 
 [node name="ShadowLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+light_energy = 0.5
 shadow_enabled = true
 sky_mode = 1
 
@@ -145,7 +149,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0)
+color = Color(0, 0, 0, 1)
 
 [node name="MaskAnimationPlayer" type="AnimationPlayer" parent="UI"]
 root_node = NodePath("../..")
@@ -158,3 +162,7 @@ script = ExtResource("3_a7piw")
 tree_root = SubResource("AnimationNodeStateMachine_rlgtl")
 anim_player = NodePath("../MaskAnimationPlayer")
 active = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.938391, 0.25139, -0.237121, 0, 0.686161, 0.72745, 0.345577, -0.682632, 0.643887, 0, 0, 0)
+light_energy = 0.5

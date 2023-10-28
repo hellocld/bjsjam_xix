@@ -6,10 +6,11 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_xj3mt"]
 
-[node name="Navigator" type="CharacterBody3D"]
+[node name="Navigator" type="CharacterBody3D" node_paths=PackedStringArray("nav_agent")]
 axis_lock_angular_y = true
 script = ExtResource("1_kco07")
 move_speed = 1.0
+nav_agent = NodePath("NavigationAgent3D")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true

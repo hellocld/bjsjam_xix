@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://e72aajjqr18r"]
+[gd_scene load_steps=4 format=3 uid="uid://e72aajjqr18r"]
 
 [ext_resource type="Script" path="res://src/obstacle_placer/obstacle_placer.gd" id="1_snr5p"]
+[ext_resource type="PackedScene" uid="uid://cjxcpahqwqsq" path="res://src/obstacle_base/custom/obstacle_box.tscn" id="2_1jv31"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_yy50l"]
 size = Vector3(0.2, 0.2, 0.2)
 
 [node name="ObstaclePlacer" type="Node3D"]
 script = ExtResource("1_snr5p")
+obstacles = Array[PackedScene]([ExtResource("2_1jv31")])
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
 

@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx5k4egalt1he"]
+
+[ext_resource type="PackedScene" uid="uid://65jp2ieib57s" path="res://src/rooms/room_base.tscn" id="1_8bsaw"]
+[ext_resource type="Material" uid="uid://q0fa6ar67wl2" path="res://assets/materials/icon_triplanar.tres" id="2_qo8q0"]
+
+[node name="RoomBase" instance=ExtResource("1_8bsaw")]
+
+[node name="Bounds" type="CSGBox3D" parent="NavigationRegion3D/RoomBase" index="0"]
+use_collision = true
+collision_mask = 2
+size = Vector3(20, 4, 20)
+material = ExtResource("2_qo8q0")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/RoomBase/Bounds" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+operation = 2
+size = Vector3(19, 4, 19)
+material = ExtResource("2_qo8q0")
+
+[node name="NavigatorStart" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 8)
+
+[node name="NavigatorGoal" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -7)

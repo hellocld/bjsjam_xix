@@ -30,7 +30,7 @@ navigation_mesh = SubResource("NavigationMesh_8xbcm")
 
 [node name="RoomBase" type="Node3D" parent="NavigationRegion3D"]
 
-[node name="ObstacleRoot" type="Node3D" parent="NavigationRegion3D"]
+[node name="ObstacleRoot" type="Node3D" parent="NavigationRegion3D" groups=["ObstacleRoot"]]
 
 [node name="NavigatorStart" type="Node3D" parent="."]
 
