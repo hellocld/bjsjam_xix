@@ -14,3 +14,7 @@ signal map_ready_for_nav()
 
 signal nav_navigation_started()
 signal nav_target_reached()
+signal nav_target_failed()
+
+
+signal return_to_main_pressed()

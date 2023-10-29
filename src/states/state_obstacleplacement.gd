@@ -3,15 +3,10 @@ extends GameState
 
 
 func state_start() -> void:
-	EventBus.obstacle_placement_started.connect(_on_obstacle_placement_started)
 	EventBus.obstacle_placement_timeout.connect(_on_obstacle_placement_timeout)
 	_state_machine.ui.obstacle_ui.initialize()
 	_state_machine.ui.show_obst_ui()
-	_state_machine.ui.start_obst_countdown()
-
-
-func _on_obstacle_placement_started() -> void:
-	_state_machine.ui.show_obst_timeup()
+	_state_machine.ui.obstacle_ui.start_obst_countdown()
 
 
 func _on_obstacle_placement_timeout() -> void:

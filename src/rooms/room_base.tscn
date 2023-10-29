@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://bxqdpbg7wys03" path="res://src/obstacle_base/custom/obstacle_cylinder.tscn" id="5_n3uxy"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_8xbcm"]
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"Navigatable"
 agent_height = 2.0
 agent_radius = 1.0
 
@@ -31,9 +33,9 @@ script = ExtResource("1_2bofa")
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_8xbcm")
 
-[node name="RoomBase" type="Node3D" parent="NavigationRegion3D"]
+[node name="RoomBase" type="Node3D" parent="NavigationRegion3D" groups=["Navigatable"]]
 
-[node name="ObstacleRoot" type="Node3D" parent="NavigationRegion3D" groups=["ObstacleRoot"]]
+[node name="ObstacleRoot" type="Node3D" parent="NavigationRegion3D" groups=["Navigatable", "ObstacleRoot"]]
 
 [node name="NavigatorStart" type="Node3D" parent="."]
 

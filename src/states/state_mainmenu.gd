@@ -5,7 +5,7 @@ extends GameState
 func state_start() -> void:
 	# Configure UI
 	_state_machine.ui.game_start_pressed.connect(_on_game_start_clicked)
-	_state_machine.ui.show_main_menu()
+	_state_machine.ui.initialize_ui()
 	_state_machine.ui.mask_hide()
 
 

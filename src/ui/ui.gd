@@ -6,15 +6,21 @@ signal game_start_pressed()
 @export var main_menu:MainMenu
 @export var how_to_play:HowToPlay
 @export var obstacle_ui:ObstacleUI
-
+@export var navigation_ui:NavigationUI
 
 var _state_machine: AnimationNodeStateMachinePlayback
 
 
 func _ready() -> void:
 	_state_machine = $MaskAnimationTree["parameters/playback"]
-	$MainMenu.visible = true
-	$HowToPlay.visible = false
+	initialize_ui()
+
+
+func initialize_ui() -> void:
+	main_menu.visible = true
+	how_to_play.visible = false
+	obstacle_ui.visible = false
+	navigation_ui.visible = false
 
 
 func show_main_menu() -> void:
@@ -41,20 +47,12 @@ func hide_obst_ui() -> void:
 	obstacle_ui.visible = false
 
 
-func show_obst_timeup() -> void:
-	pass
+func show_nav_ui() -> void:
+	navigation_ui.visible = true
 
 
-func hide_obst_timeup() -> void:
-	pass
-
-
-func start_obst_countdown() -> void:
-	$Countdown/AnimationPlayer.play("Countdown_Obstacles")
-
-
-func obst_countdown_complete() -> void:
-	EventBus.obstacle_placement_started.emit()
+func hide_nav_ui() -> void:
+	navigation_ui.visible = false
 
 
 func _on_obst_placement_timeout() -> void:
