@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://65jp2ieib57s"]
+[gd_scene load_steps=12 format=3 uid="uid://65jp2ieib57s"]
 
 [ext_resource type="Script" path="res://src/rooms/room_base.gd" id="1_2bofa"]
 [ext_resource type="PackedScene" uid="uid://xw5yidmbqryn" path="res://src/navigator/navigator.tscn" id="2_51lxs"]
+[ext_resource type="PackedScene" uid="uid://2hvaga3kx28g" path="res://src/rooms/obstacle_despawner.tscn" id="2_fw1yc"]
 [ext_resource type="PackedScene" uid="uid://e72aajjqr18r" path="res://src/obstacle_placer/obstacle_placer.tscn" id="3_3kaje"]
 [ext_resource type="PackedScene" uid="uid://cjxcpahqwqsq" path="res://src/obstacle_base/custom/obstacle_box.tscn" id="4_bf08a"]
 [ext_resource type="PackedScene" uid="uid://bxqdpbg7wys03" path="res://src/obstacle_base/custom/obstacle_cylinder.tscn" id="5_n3uxy"]
@@ -42,10 +43,14 @@ navigation_mesh = SubResource("NavigationMesh_8xbcm")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigatorStart"]
 mesh = SubResource("TorusMesh_v23b6")
 
+[node name="ObstacleDespawner" parent="NavigatorStart" instance=ExtResource("2_fw1yc")]
+
 [node name="NavigatorGoal" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigatorGoal"]
 mesh = SubResource("TorusMesh_1v5iw")
+
+[node name="ObstacleDespawner" parent="NavigatorGoal" instance=ExtResource("2_fw1yc")]
 
 [node name="Navigator" parent="." instance=ExtResource("2_51lxs")]
 

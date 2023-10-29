@@ -226,7 +226,6 @@ obstacle_ui = NodePath("ObstacleUI")
 navigation_ui = NodePath("NavigationUI")
 
 [node name="MainMenu" type="Control" parent="UI" node_paths=PackedStringArray("start_button")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -311,6 +310,7 @@ size_flags_horizontal = 4
 text = "Back"
 
 [node name="ObstacleUI" type="Control" parent="UI" node_paths=PackedStringArray("timer", "times_up", "countdown", "countdown_animator")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

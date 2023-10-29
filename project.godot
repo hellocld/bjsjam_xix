@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="BGSjam XIX"
+config/name="Slowpoke"
+config/description="A little pathfinding game thing made for BGSjam XIX"
 run/main_scene="res://src/game/game.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
@@ -97,6 +98,7 @@ obstacleplacer_place={
 
 3d_physics/layer_1="Room"
 3d_physics/layer_2="Obstacle"
+3d_physics/layer_3="StartStopObstacleBlockers"
 
 [rendering]
 
