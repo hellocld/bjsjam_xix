@@ -1,11 +1,13 @@
-[gd_scene load_steps=24 format=3 uid="uid://4ntbqy6rk18f"]
+[gd_scene load_steps=26 format=3 uid="uid://4ntbqy6rk18f"]
 
 [ext_resource type="Script" path="res://src/game/game.gd" id="1_0xk1w"]
 [ext_resource type="PackedScene" uid="uid://cx5k4egalt1he" path="res://src/rooms/custom/room_corner2corner.tscn" id="2_5u6ya"]
 [ext_resource type="Script" path="res://src/ui/MaskAnimationPlayer.gd" id="3_a7piw"]
 [ext_resource type="Script" path="res://src/ui/ui.gd" id="3_cflfw"]
+[ext_resource type="Script" path="res://src/game/StateMachine.gd" id="3_rg0xt"]
 [ext_resource type="Script" path="res://src/game/ObstaclePlacementTimer.gd" id="5_ekg4u"]
 [ext_resource type="Script" path="res://src/game/ObstaclePlacementTimerLabel.gd" id="5_oguwo"]
+[ext_resource type="Texture2D" uid="uid://batwdprjh3tmj" path="res://icon.svg" id="7_xx6ic"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6iq0u"]
 font_size = 128
@@ -181,6 +183,9 @@ outline_color = Color(0, 0, 0, 1)
 script = ExtResource("1_0xk1w")
 room_pool = Array[PackedScene]([ExtResource("2_5u6ya")])
 
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_rg0xt")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 42, 24.5)
 fov = 22.0
@@ -202,7 +207,88 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_cflfw")
 
+[node name="MainMenu" type="Control" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/MainMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/MarginContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Logo" type="TextureRect" parent="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+texture = ExtResource("7_xx6ic")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Start" type="Button" parent="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="HowToPlay" type="Button" parent="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "How To Play"
+
+[node name="Quit" type="Button" parent="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="HowToPlay" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HowToPlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_right = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HowToPlay/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Label" type="Label" parent="UI/HowToPlay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Slow down the automaton! Using the left stick to move, right stick to rotate, bumpers to switch obstacles, and A/B/X to drop, drop as many obstacles as you can between the start and end points before the timer runs out. Then watch to see how long it takes the automaton to reach the goal. The longer the time, the better you did!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Back" type="Button" parent="UI/HowToPlay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Back"
+
 [node name="ScreenMask" type="ColorRect" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -296,3 +382,8 @@ one_shot = true
 script = ExtResource("5_ekg4u")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="pressed" from="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer/Start" to="UI" method="_on_start_pressed"]
+[connection signal="pressed" from="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer/HowToPlay" to="UI" method="_on_how_to_play_pressed"]
+[connection signal="pressed" from="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="UI" method="_on_quit_pressed"]
+[connection signal="pressed" from="UI/HowToPlay/MarginContainer/VBoxContainer/Back" to="UI" method="_on_howtoplay_back_pressed"]

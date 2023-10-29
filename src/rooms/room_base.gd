@@ -7,6 +7,7 @@ extends Node3D
 @onready var nav_goal:Node3D = $NavigatorGoal
 @onready var obstacle_placer:ObstaclePlacer = $ObstaclePlacer
 
+
 func _ready() -> void:
 	EventBus.obstacle_placement_started.connect(enable_obstacle_placer)
 	EventBus.obstacle_placement_timeout.connect(_on_obstacle_placement_timeout)

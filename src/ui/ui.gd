@@ -1,12 +1,25 @@
 class_name UI
 extends Control
 
+signal game_start_pressed()
+
 var _state_machine: AnimationNodeStateMachinePlayback
 
 
 func _ready() -> void:
 	_state_machine = $MaskAnimationTree["parameters/playback"]
 	EventBus.obstacle_placement_timeout.connect(_on_obst_placement_timeout)
+	$MainMenu.visible = true
+	$HowToPlay.visible = false
+
+
+func show_main_menu() -> void:
+	$MainMenu.visible = true
+
+
+func hide_main_menu() -> void:
+	$MainMenu.visible = false
+
 
 
 func mask_hide() -> void:
@@ -33,3 +46,21 @@ func _on_obst_placement_timeout() -> void:
 
 func _on_timesup_mask_shown() -> void:
 	$ObstTimesUp.visible = false
+
+
+func _on_start_pressed():
+	game_start_pressed.emit()
+
+
+func _on_how_to_play_pressed():
+	$MainMenu.visible = false
+	$HowToPlay.visible = true
+
+
+func _on_quit_pressed():
+	get_tree().quit()
+
+
+func _on_howtoplay_back_pressed():
+	$MainMenu.visible = true
+	$HowToPlay.visible = false

@@ -8,11 +8,12 @@ extends Node3D
 
 @onready var _ui:UI = $UI
 
+@onready var _state_machine:StateMachine = $StateMachine
+
 var _room: RoomBase
 
 
 func _ready() -> void:
-	_instance_random_room()
 	_ui.mask_hide()
 	EventBus.ui_mask_hidden.connect(on_room_ready, CONNECT_ONE_SHOT)
 	EventBus.map_baked.connect(_on_map_baked)
@@ -22,7 +23,7 @@ func on_room_ready() -> void:
 	_ui.start_obst_countdown()
 
 
-func _instance_random_room() -> void:
+func instance_random_room() -> void:
 	_room = room_pool.pick_random().instantiate() as RoomBase
 	for child in _room_root.get_children():
 		child.queue_free()
