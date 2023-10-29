@@ -1,13 +1,16 @@
-[gd_scene load_steps=26 format=3 uid="uid://4ntbqy6rk18f"]
+[gd_scene load_steps=29 format=3 uid="uid://4ntbqy6rk18f"]
 
 [ext_resource type="Script" path="res://src/game/game.gd" id="1_0xk1w"]
 [ext_resource type="PackedScene" uid="uid://cx5k4egalt1he" path="res://src/rooms/custom/room_corner2corner.tscn" id="2_5u6ya"]
 [ext_resource type="Script" path="res://src/ui/MaskAnimationPlayer.gd" id="3_a7piw"]
 [ext_resource type="Script" path="res://src/ui/ui.gd" id="3_cflfw"]
 [ext_resource type="Script" path="res://src/game/StateMachine.gd" id="3_rg0xt"]
+[ext_resource type="Script" path="res://src/game/MainMenu.gd" id="5_bgmic"]
 [ext_resource type="Script" path="res://src/game/ObstaclePlacementTimer.gd" id="5_ekg4u"]
 [ext_resource type="Script" path="res://src/game/ObstaclePlacementTimerLabel.gd" id="5_oguwo"]
+[ext_resource type="Script" path="res://src/game/HowToPlay.gd" id="7_t432s"]
 [ext_resource type="Texture2D" uid="uid://batwdprjh3tmj" path="res://icon.svg" id="7_xx6ic"]
+[ext_resource type="Script" path="res://src/game/ObstacleUI.gd" id="8_m88xj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6iq0u"]
 font_size = 128
@@ -60,6 +63,16 @@ tracks/2/keys = {
 _data = {
 "Countdown_Obstacles": SubResource("Animation_hhqrx")
 }
+
+[sub_resource type="LabelSettings" id="LabelSettings_tj1t8"]
+font_size = 128
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6jcyx"]
+font_size = 64
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Animation" id="Animation_7ne66"]
 resource_name = "MaskHide"
@@ -169,22 +182,15 @@ states/MaskShowImmediate/position = Vector2(240, 42)
 states/Start/position = Vector2(92, 125)
 transitions = ["MaskShow", "MaskHide", SubResource("AnimationNodeStateMachineTransition_scasa"), "MaskHide", "MaskShow", SubResource("AnimationNodeStateMachineTransition_bryyi"), "Start", "MaskShowImmediate", SubResource("AnimationNodeStateMachineTransition_8lnfv"), "MaskShowImmediate", "MaskHide", SubResource("AnimationNodeStateMachineTransition_ipote")]
 
-[sub_resource type="LabelSettings" id="LabelSettings_6jcyx"]
-font_size = 64
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_tj1t8"]
-font_size = 128
-outline_size = 16
-outline_color = Color(0, 0, 0, 1)
-
-[node name="Game" type="Node3D"]
+[node name="Game" type="Node3D" node_paths=PackedStringArray("_state_machine")]
 script = ExtResource("1_0xk1w")
 room_pool = Array[PackedScene]([ExtResource("2_5u6ya")])
+_state_machine = NodePath("StateMachine")
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game", "ui")]
 script = ExtResource("3_rg0xt")
+game = NodePath("..")
+ui = NodePath("../UI")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 42, 24.5)
@@ -198,7 +204,7 @@ sky_mode = 1
 
 [node name="RoomRoot" type="Node3D" parent="."]
 
-[node name="UI" type="Control" parent="."]
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("main_menu", "how_to_play", "obstacle_ui")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -206,15 +212,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_cflfw")
+main_menu = NodePath("MainMenu")
+how_to_play = NodePath("HowToPlay")
+obstacle_ui = NodePath("ObstaclePlacement")
 
-[node name="MainMenu" type="Control" parent="UI"]
-visible = false
+[node name="MainMenu" type="Control" parent="UI" node_paths=PackedStringArray("start_button")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("5_bgmic")
+start_button = NodePath("MarginContainer/CenterContainer/VBoxContainer/VBoxContainer/Start")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MainMenu"]
 layout_mode = 1
@@ -253,13 +263,16 @@ text = "How To Play"
 layout_mode = 2
 text = "Quit"
 
-[node name="HowToPlay" type="Control" parent="UI"]
+[node name="HowToPlay" type="Control" parent="UI" node_paths=PackedStringArray("back_button")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("7_t432s")
+back_button = NodePath("MarginContainer/VBoxContainer/Back")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/HowToPlay"]
 layout_mode = 1
@@ -287,17 +300,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Back"
 
-[node name="ScreenMask" type="ColorRect" parent="UI"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
 [node name="Countdown" type="Label" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -322,6 +326,56 @@ libraries = {
 "": SubResource("AnimationLibrary_ytlui")
 }
 
+[node name="ObstaclePlacement" type="Control" parent="UI" node_paths=PackedStringArray("timer", "times_up", "countdown")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_m88xj")
+timer = NodePath("MarginContainer/TimerCenterContainer")
+times_up = NodePath("MarginContainer/TimesUpContainer")
+countdown = NodePath("../Countdown")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/ObstaclePlacement"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimesUpContainer" type="CenterContainer" parent="UI/ObstaclePlacement/MarginContainer"]
+layout_mode = 2
+
+[node name="ObstTimesUp" type="Label" parent="UI/ObstaclePlacement/MarginContainer/TimesUpContainer"]
+layout_mode = 2
+text = "Time's Up!"
+label_settings = SubResource("LabelSettings_tj1t8")
+
+[node name="TimerCenterContainer" type="CenterContainer" parent="UI/ObstaclePlacement/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ObstaclePlacementTimerLabel" type="Label" parent="UI/ObstaclePlacement/MarginContainer/TimerCenterContainer" node_paths=PackedStringArray("timer")]
+layout_mode = 2
+text = "00:00"
+label_settings = SubResource("LabelSettings_6jcyx")
+script = ExtResource("5_oguwo")
+timer = NodePath("../../../../../ObstaclePlacementTimer")
+
+[node name="ScreenMask" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
 [node name="MaskAnimationPlayer" type="AnimationPlayer" parent="UI"]
 root_node = NodePath("../..")
 libraries = {
@@ -333,43 +387,6 @@ script = ExtResource("3_a7piw")
 tree_root = SubResource("AnimationNodeStateMachine_rlgtl")
 anim_player = NodePath("../MaskAnimationPlayer")
 active = true
-
-[node name="MarginContainer" type="MarginContainer" parent="UI"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="ObstaclePlacementTimerLabel" type="Label" parent="UI/MarginContainer/CenterContainer" node_paths=PackedStringArray("timer")]
-visible = false
-layout_mode = 2
-text = "00:00"
-label_settings = SubResource("LabelSettings_6jcyx")
-script = ExtResource("5_oguwo")
-timer = NodePath("../../../../ObstaclePlacementTimer")
-
-[node name="ObstTimesUp" type="Label" parent="UI"]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Time's Up!"
-label_settings = SubResource("LabelSettings_tj1t8")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.938391, 0.25139, -0.237121, 0, 0.686161, 0.72745, 0.345577, -0.682632, 0.643887, 0, 0, 0)
@@ -383,7 +400,9 @@ script = ExtResource("5_ekg4u")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
+[connection signal="visibility_changed" from="UI/MainMenu" to="UI/MainMenu" method="_on_visibility_changed"]
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer/Start" to="UI" method="_on_start_pressed"]
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer/HowToPlay" to="UI" method="_on_how_to_play_pressed"]
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="UI" method="_on_quit_pressed"]
+[connection signal="visibility_changed" from="UI/HowToPlay" to="UI/HowToPlay" method="_on_visibility_changed"]
 [connection signal="pressed" from="UI/HowToPlay/MarginContainer/VBoxContainer/Back" to="UI" method="_on_howtoplay_back_pressed"]

@@ -6,7 +6,7 @@ var _state_machine:StateMachine
 
 
 func _init(state_machine:StateMachine) -> void:
-	pass
+	_state_machine = state_machine
 
 
 func state_start() -> void:

@@ -1,8 +1,8 @@
 class_name StateMachine
 extends Node
 
-@onready var game:Game = $".."
-@onready var ui:UI = $"../UI"
+@export var game:Game
+@export var ui:UI
 
 var _current_state: GameState
 

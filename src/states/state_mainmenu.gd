@@ -18,4 +18,4 @@ func state_end() -> void:
 
 
 func _on_game_start_clicked() -> void:
-	_state_machine.change_state(StateInitRoom.new(_state_machine))
+	_state_machine.change_state.call_deferred(StateInitRoom.new(_state_machine))
